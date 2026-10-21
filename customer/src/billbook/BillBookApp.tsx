@@ -307,13 +307,18 @@ function DriveSettings({data,user,save}:{data:UserData;user:User;save:Save}){
    }catch(e){setStatus(String((e as Error).message).includes('expired')?'Reauthorization required':'Sync failed');setMessage((e as Error).message||'Google Drive synchronization failed. Your current workspace has not been discarded. Retry when the connection is available.')}
    finally{setBusy(false)}
  };
- useEffect(()=>{
-   if(!token||!initialized||busy)return;
-   const serialized=JSON.stringify(data);
-   if(!serialized||serialized===lastSavedPayload.current)return;
-   const timer=window.setTimeout(()=>{void sync()},1200);
-   return ()=>window.clearTimeout(timer);
- },[data,token,initialized,busy]);
+useEffect(() => {
+  if (!token || !initialized || busy) return;
+
+  const serialized = JSON.stringify(data);
+  if (!serialized || serialized === lastSavedPayload.current) return;
+
+  const timer = window.setTimeout(() => {
+    void sync();
+  }, 1200);
+
+  return () => window.clearTimeout(timer);
+}, [data, token, initialized, busy, sync]);
  const restoreFromDrive=async()=>{
    if(!token){setMessage('Connect and verify Google Drive first.');return}
    setBusy(true);setStatus('Loading business data');setMessage('');
