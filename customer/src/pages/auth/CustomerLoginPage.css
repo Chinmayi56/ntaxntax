@@ -1,0 +1,116 @@
+.ntaxco-login-shell {
+  --ntx-blue: #062A63;
+  --ntx-primary: #0B5ED7;
+  --ntx-yellow: #F5B800;
+  --ntx-yellow-bright: #FFBF00;
+  --ntx-ink: #102A43;
+  --ntx-muted: #62748a;
+  min-height: 100dvh;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 22px;
+  background: radial-gradient(circle at 12% 8%, rgba(11,94,215,.09), transparent 31%), radial-gradient(circle at 94% 88%, rgba(245,184,0,.12), transparent 28%), #F5F8FC;
+  color: var(--ntx-ink);
+}
+.ntaxco-login-orb { position:absolute; border-radius:999px; filter:blur(2px); pointer-events:none; opacity:.75; }
+.ntaxco-login-orb-one { width:420px; height:420px; left:-230px; top:-190px; background:rgba(11,94,215,.08); }
+.ntaxco-login-orb-two { width:380px; height:380px; right:-220px; bottom:-190px; background:rgba(245,184,0,.1); }
+.ntaxco-login-frame {
+  width:min(1460px,100%); min-height:min(820px, calc(100dvh - 44px)); display:grid; grid-template-columns: 235px minmax(360px,1.08fr) minmax(390px,.92fr); overflow:hidden;
+  border:1px solid rgba(6,42,99,.1); border-radius:30px; background:rgba(255,255,255,.91); box-shadow:0 30px 90px rgba(6,42,99,.13), 0 4px 18px rgba(16,42,67,.06); backdrop-filter:blur(18px); position:relative; z-index:1;
+}
+.ntaxco-login-sidebar { background:linear-gradient(160deg,#062A63 0%,#0a397d 55%,#0b5ed7 100%); color:#fff; padding:28px 18px; display:flex; flex-direction:column; justify-content:space-between; position:relative; overflow:hidden; }
+.ntaxco-login-sidebar:after { content:""; position:absolute; width:230px; height:230px; right:-150px; bottom:90px; border-radius:50%; border:45px solid rgba(255,255,255,.055); }
+.ntaxco-brand-lockup { margin-bottom:48px; }
+.ntaxco-logo-plate { display:inline-flex; align-items:center; justify-content:center; background:#fff; border-radius:15px; padding:7px 11px; box-shadow:0 10px 28px rgba(0,0,0,.12); }
+.ntaxco-brand-caption { margin-top:12px; font-size:9px; letter-spacing:.18em; color:rgba(255,255,255,.58); font-weight:800; }
+.ntaxco-portal-label { color:rgba(255,255,255,.55); font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:.13em; margin:0 8px 10px; }
+.ntaxco-portal-switcher { display:flex; flex-direction:column; gap:7px; }
+.ntaxco-portal-option { width:100%; border:1px solid transparent; border-radius:14px; background:transparent; color:rgba(255,255,255,.7); display:flex; align-items:center; gap:9px; text-align:left; padding:11px 9px; position:relative; transition:all .28s ease; cursor:pointer; }
+.ntaxco-portal-option:hover { background:rgba(255,255,255,.07); color:#fff; }
+.ntaxco-portal-option.is-active { background:#fff; color:var(--ntx-blue); box-shadow:0 10px 25px rgba(0,0,0,.14); }
+.ntaxco-portal-icon { width:32px; height:32px; border-radius:10px; display:grid; place-items:center; background:rgba(255,255,255,.1); flex:0 0 auto; }
+.ntaxco-portal-option.is-active .ntaxco-portal-icon { background:rgba(245,184,0,.18); color:#a87900; }
+.ntaxco-portal-option strong { display:block; font-size:12px; line-height:1.1; }
+.ntaxco-portal-option small { display:block; margin-top:3px; font-size:9px; opacity:.62; }
+.ntaxco-portal-indicator { margin-left:auto; width:25px; height:25px; border-radius:8px; background:var(--ntx-yellow); color:var(--ntx-blue); display:grid; place-items:center; }
+.ntaxco-security-note { display:flex; gap:9px; align-items:flex-start; padding:12px 8px 2px; border-top:1px solid rgba(255,255,255,.11); }
+.ntaxco-security-icon { width:30px; height:30px; border-radius:9px; display:grid; place-items:center; background:rgba(255,255,255,.09); color:#ffd96b; flex:0 0 auto; }
+.ntaxco-security-note strong,.ntaxco-security-note span { display:block; }
+.ntaxco-security-note strong { font-size:10px; }
+.ntaxco-security-note span { font-size:8.5px; line-height:1.4; color:rgba(255,255,255,.55); margin-top:3px; }
+.ntaxco-login-hero { background:linear-gradient(155deg,#f8fbff 0%,#eef5ff 48%,#f9fbff 100%); position:relative; overflow:hidden; padding:52px 46px 38px; display:flex; align-items:center; }
+.ntaxco-login-hero:before { content:""; position:absolute; width:520px; height:520px; border-radius:50%; border:1px solid rgba(11,94,215,.06); left:50%; top:49%; transform:translate(-50%,-50%); box-shadow:0 0 0 55px rgba(11,94,215,.025), 0 0 0 115px rgba(11,94,215,.018); }
+.ntaxco-hero-content { width:100%; position:relative; z-index:1; }
+.ntaxco-hero-topline { display:inline-flex; align-items:center; gap:7px; color:#0b5ed7; font-size:10px; font-weight:900; letter-spacing:.13em; }
+.ntaxco-hero-content h1 { margin:12px 0 0; max-width:560px; color:#062A63; font-size:clamp(34px,3.1vw,54px); line-height:1.03; font-weight:900; letter-spacing:-.045em; }
+.ntaxco-hero-content p { margin:17px 0 0; max-width:570px; color:#5f7389; font-size:14px; line-height:1.7; }
+.ntaxco-hero-art { position:relative; height:310px; max-width:590px; margin:20px auto 0; }
+.ntaxco-art-glow { position:absolute; width:230px; height:230px; border-radius:50%; background:rgba(245,184,0,.16); filter:blur(20px); left:50%; top:44%; transform:translate(-50%,-50%); }
+.ntaxco-art-card { position:absolute; border-radius:19px; border:1px solid rgba(6,42,99,.09); background:rgba(255,255,255,.88); box-shadow:0 22px 45px rgba(6,42,99,.12); backdrop-filter:blur(12px); }
+.ntaxco-art-card-main { width:300px; height:205px; left:50%; top:50%; transform:translate(-50%,-50%); padding:18px; }
+.ntaxco-art-card-header { display:flex; justify-content:space-between; align-items:center; font-size:11px; font-weight:900; color:#062A63; }
+.ntaxco-art-status { font-size:8px; color:#16804a; background:#e8f8ef; padding:5px 7px; border-radius:999px; letter-spacing:.08em; }
+.ntaxco-art-chart { display:flex; align-items:flex-end; gap:8px; height:92px; margin-top:15px; padding:10px 13px; border-radius:13px; background:linear-gradient(180deg,#f7fbff,#eef5ff); }
+.ntaxco-art-chart i { display:block; width:29px; border-radius:7px 7px 3px 3px; background:linear-gradient(180deg,#0b5ed7,#7ca9ed); }
+.ntaxco-art-chart i:nth-child(1){height:35%}.ntaxco-art-chart i:nth-child(2){height:55%}.ntaxco-art-chart i:nth-child(3){height:43%}.ntaxco-art-chart i:nth-child(4){height:78%}.ntaxco-art-chart i:nth-child(5){height:63%;background:linear-gradient(180deg,#ffbf00,#f5b800)}
+.ntaxco-art-lines { margin-top:13px; display:flex; gap:6px; }
+.ntaxco-art-lines span { display:block; height:5px; border-radius:99px; background:#dce7f4; }
+.ntaxco-art-lines span:nth-child(1){width:42%}.ntaxco-art-lines span:nth-child(2){width:27%}.ntaxco-art-lines span:nth-child(3){width:17%}
+.ntaxco-art-card-float { left:2%; top:24%; display:flex; align-items:center; gap:10px; padding:11px 13px; }
+.ntaxco-art-card-float strong,.ntaxco-art-card-float span { display:block; }.ntaxco-art-card-float strong{font-size:10px;color:#102a43}.ntaxco-art-card-float span{font-size:8px;color:#7890a7;margin-top:2px}
+.ntaxco-art-card-float-two { right:2%; bottom:21%; display:flex; align-items:center; gap:8px; padding:10px 12px; color:#37536e; font-size:9px; font-weight:800; }
+.ntaxco-service-pills { display:flex; flex-wrap:wrap; gap:7px; max-width:580px; }
+.ntaxco-service-pills span { display:inline-flex; align-items:center; gap:5px; border:1px solid rgba(11,94,215,.1); background:#fff; color:#4f667e; padding:7px 9px; border-radius:999px; font-size:9px; font-weight:800; box-shadow:0 5px 12px rgba(6,42,99,.04); }
+.ntaxco-service-pills span:nth-child(1),.ntaxco-service-pills span:nth-child(5){ color:#8a6500; border-color:rgba(245,184,0,.22); }
+.ntaxco-auth-panel { padding:42px 46px 30px; display:flex; flex-direction:column; justify-content:center; min-width:0; background:rgba(255,255,255,.97); }
+.ntaxco-mobile-brand { display:none; }
+.ntaxco-back-link { align-self:flex-start; border:0; background:none; color:#71849a; display:inline-flex; align-items:center; gap:6px; font-size:11px; font-weight:700; padding:0; cursor:pointer; margin-bottom:26px; }
+.ntaxco-back-link:hover { color:#0b5ed7; }
+.ntaxco-auth-heading > span { display:inline-flex; color:#0b5ed7; font-size:9px; font-weight:900; text-transform:uppercase; letter-spacing:.14em; }
+.ntaxco-auth-heading h2 { margin:7px 0 0; color:#102a43; font-size:30px; line-height:1.08; font-weight:900; letter-spacing:-.035em; }
+.ntaxco-auth-heading p { margin:9px 0 0; color:#71849a; font-size:11px; line-height:1.55; max-width:400px; }
+.ntaxco-ledger-notice { display:flex; gap:10px; align-items:flex-start; border:1px solid rgba(245,184,0,.35); background:#fff9e7; color:#6c5100; padding:11px 12px; border-radius:13px; margin-top:16px; }
+.ntaxco-ledger-notice strong,.ntaxco-ledger-notice span{display:block}.ntaxco-ledger-notice strong{font-size:10px}.ntaxco-ledger-notice span{font-size:9px;line-height:1.45;margin-top:2px;color:#876e28}
+.ntaxco-auth-tabs,.ntaxco-method-tabs { display:grid; grid-template-columns:1fr 1fr; gap:5px; padding:4px; background:#f3f6fa; border-radius:12px; margin-top:21px; }
+.ntaxco-auth-tabs button,.ntaxco-method-tabs button { border:0; background:transparent; border-radius:9px; min-height:37px; display:flex; align-items:center; justify-content:center; gap:6px; color:#788a9e; font-size:10px; font-weight:800; cursor:pointer; transition:all .25s ease; }
+.ntaxco-auth-tabs button.is-active,.ntaxco-method-tabs button.is-active { color:#062A63; background:#fff; box-shadow:0 4px 12px rgba(6,42,99,.08); }
+.ntaxco-auth-tabs button.is-active svg { color:#0b5ed7; }
+.ntaxco-method-tabs { margin-top:10px; background:#f8fafc; }
+.ntaxco-form { margin-top:17px; display:flex; flex-direction:column; gap:13px; }
+.ntaxco-field label { font-size:10px; font-weight:800; color:#435a70; }
+.ntaxco-input { height:43px !important; border-color:#dbe4ed !important; background:#fbfdff !important; color:#102a43 !important; border-radius:11px !important; font-size:12px !important; box-shadow:inset 0 1px 1px rgba(6,42,99,.02); transition:border-color .2s ease,box-shadow .2s ease,background .2s ease; }
+.ntaxco-input:focus { border-color:#0b5ed7 !important; background:#fff !important; box-shadow:0 0 0 3px rgba(11,94,215,.09) !important; }
+.ntaxco-prefix { position:absolute; z-index:2; left:12px; top:50%; transform:translateY(-50%); color:#6d8096; font-size:11px; font-weight:800; pointer-events:none; }
+.ntaxco-mobile-input { padding-left:43px !important; }
+.ntaxco-primary-button { width:100%; min-height:45px; border-radius:11px !important; background:#0B5ED7 !important; color:#fff !important; font-size:11px !important; font-weight:900 !important; box-shadow:0 10px 22px rgba(11,94,215,.18); transition:transform .2s ease,box-shadow .2s ease,background .2s ease; }
+.ntaxco-primary-button:hover:not(:disabled) { background:#064fae !important; transform:translateY(-1px); box-shadow:0 13px 26px rgba(11,94,215,.24); }
+.ntaxco-primary-button:disabled { opacity:.58; }
+.ntaxco-otp-box { border:1px solid #e1e8f0; background:#fbfdff; padding:12px; border-radius:12px; }
+.ntaxco-otp-box [data-slot="input-otp"] { justify-content:center; }
+.ntaxco-otp-box [data-slot="input-otp-slot"] { width:38px; height:42px; border-color:#dbe4ed; border-radius:9px; color:#062A63; font-weight:900; }
+.ntaxco-secondary-link { width:100%; background:transparent; border:0; color:#0b5ed7; font-size:10px; font-weight:800; cursor:pointer; }
+.ntaxco-password-hint { display:flex; gap:12px; margin-top:-3px; font-size:9px; color:#8797a9; }
+.ntaxco-password-hint span { display:inline-flex; align-items:center; gap:4px; }.ntaxco-password-hint svg{width:11px;height:11px}.ntaxco-password-hint .ok{color:#18804b}.ntaxco-password-hint .bad{color:#9a6d00}
+.ntaxco-form-footnote,.ntaxco-auth-footer { display:flex; align-items:center; justify-content:center; gap:5px; color:#8a9aab; font-size:8.5px; line-height:1.4; text-align:center; }
+.ntaxco-stepper { display:flex; align-items:center; gap:8px; font-size:9px; color:#8b9bad; margin-bottom:-2px; }.ntaxco-stepper span{width:23px;height:23px;border-radius:50%;display:grid;place-items:center;border:1px solid #d8e1eb;font-weight:900}.ntaxco-stepper span.done{background:#e8f4ff;border-color:#b9d8fb;color:#0b5ed7}.ntaxco-stepper span.active{background:#ffbf00;border-color:#ffbf00;color:#062A63}.ntaxco-stepper i{width:28px;height:1px;background:#d8e1eb}.ntaxco-stepper strong{margin-left:2px;color:#5b6e82;font-size:9px}
+.ntaxco-details-card { display:flex; gap:10px; align-items:flex-start; border:1px solid rgba(11,94,215,.1); background:#f6faff; border-radius:12px; padding:11px; }.ntaxco-details-icon{width:31px;height:31px;border-radius:9px;background:#e8f2ff;color:#0b5ed7;display:grid;place-items:center;flex:0 0 auto}.ntaxco-details-card strong,.ntaxco-details-card span{display:block}.ntaxco-details-card strong{font-size:10px;color:#102a43}.ntaxco-details-card span{font-size:9px;line-height:1.45;color:#71849a;margin-top:3px}
+.ntaxco-field-help{display:block;margin-top:5px;font-size:8px;color:#8b9bad}.ntaxco-auth-footer{border-top:1px solid #eef2f6;margin-top:22px;padding-top:13px}
+@media (max-width: 1180px) { .ntaxco-login-frame{grid-template-columns:205px minmax(310px,1fr) minmax(350px,.95fr)} .ntaxco-login-hero{padding:38px 30px}.ntaxco-auth-panel{padding:34px 30px}.ntaxco-hero-content h1{font-size:40px}.ntaxco-art-card-main{width:275px}.ntaxco-art-card-float{left:-1%}.ntaxco-art-card-float-two{right:-1%} }
+@media (max-width: 920px) { .ntaxco-login-shell{padding:0}.ntaxco-login-frame{min-height:100dvh;border-radius:0;border:0;grid-template-columns:190px 1fr;grid-template-areas:"side auth"}.ntaxco-login-sidebar{grid-area:side}.ntaxco-login-hero{display:none}.ntaxco-auth-panel{grid-area:auth;padding:38px clamp(24px,5vw,54px)} }
+@media (max-width: 650px) { .ntaxco-login-frame{display:block;min-height:100dvh}.ntaxco-login-sidebar{padding:16px 16px 12px;display:block}.ntaxco-login-hero{display:flex;padding:20px 18px 8px;min-height:245px;align-items:flex-start}.ntaxco-login-hero:before{width:260px;height:260px}.ntaxco-hero-content h1{font-size:29px;max-width:390px}.ntaxco-hero-content p{font-size:10px;line-height:1.55;margin-top:9px;max-width:390px}.ntaxco-hero-topline{font-size:8px}.ntaxco-hero-art{height:120px;margin-top:2px;max-width:390px}.ntaxco-art-card-main{width:170px;height:112px;padding:10px}.ntaxco-art-chart{height:45px;margin-top:6px;padding:5px 7px;gap:4px}.ntaxco-art-chart i{width:14px}.ntaxco-art-lines{margin-top:5px}.ntaxco-art-lines span{height:3px}.ntaxco-art-card-float{transform:scale(.72);transform-origin:left top;left:0;top:10%}.ntaxco-art-card-float-two{transform:scale(.72);transform-origin:right bottom;right:0;bottom:8%}.ntaxco-brand-lockup{display:flex;align-items:center;gap:10px;margin:0 0 12px}.ntaxco-logo-plate{padding:4px 7px;border-radius:11px}.ntaxco-logo-plate img{height:37px !important}.ntaxco-brand-caption{margin:0;font-size:7px}.ntaxco-portal-label{display:none}.ntaxco-portal-switcher{display:grid;grid-template-columns:1fr 1fr;gap:6px}.ntaxco-portal-option{padding:7px 8px;border-radius:11px}.ntaxco-portal-icon{width:27px;height:27px}.ntaxco-portal-option strong{font-size:9px}.ntaxco-portal-option small{font-size:7px}.ntaxco-portal-indicator{width:20px;height:20px}.ntaxco-security-note{display:none}.ntaxco-auth-panel{padding:24px 18px 20px;min-height:calc(100dvh - 101px)}.ntaxco-mobile-brand{display:none}.ntaxco-back-link{margin-bottom:18px}.ntaxco-auth-heading h2{font-size:27px}.ntaxco-auth-heading p{font-size:10px}.ntaxco-form{gap:12px}.ntaxco-input{height:44px !important}.ntaxco-otp-box [data-slot="input-otp-slot"]{width:34px}.ntaxco-service-pills{display:none} }
+@media (max-width: 380px) { .ntaxco-login-sidebar{padding-left:11px;padding-right:11px}.ntaxco-portal-option small{display:none}.ntaxco-auth-panel{padding-left:14px;padding-right:14px}.ntaxco-auth-heading h2{font-size:24px}.ntaxco-auth-tabs button,.ntaxco-method-tabs button{font-size:9px}.ntaxco-otp-box [data-slot="input-otp-slot"]{width:31px;height:39px} }
+@media (prefers-reduced-motion: reduce) { .ntaxco-login-shell *, .ntaxco-login-shell *::before, .ntaxco-login-shell *::after { animation-duration:0.01ms !important; transition-duration:0.01ms !important; } }
+/* Tablet: the original layout hid the workspace landing content between 651px and 920px.
+   Show a compact version (no animated art) above the form so both workspaces have visible content. */
+@media (min-width: 651px) and (max-width: 920px) {
+  .ntaxco-login-frame { grid-template-areas: "side hero" "side auth"; grid-template-rows: auto 1fr; }
+  .ntaxco-login-hero { grid-area: hero; display: flex; padding: 30px clamp(24px,5vw,54px) 0; }
+  .ntaxco-login-hero:before, .ntaxco-hero-art { display: none; }
+  .ntaxco-hero-content h1 { font-size: 34px; }
+  .ntaxco-service-pills { margin-top: 16px; }
+  .ntaxco-auth-panel { padding-top: 24px; }
+}
