@@ -1,15 +1,38 @@
+# Node.js dependencies
 node_modules/
 **/node_modules/
+
+# Cache files
 .cache/
 **/.cache/
+.npm/
+
+# Build outputs
 build/
+**/build/
 dist/
+**/dist/
 coverage/
+**/coverage/
+
+# Python virtual environments
 venv/
 **/venv/
-__pycache__/
-*.pyc
+.venv/
+**/.venv/
 
+# Python cache
+__pycache__/
+**/__pycache__/
+*.py[cod]
+
+# Environment files — never commit real secrets
 .env
 .env.*
 !.env.example
+!.env.*.example
+
+# Local development files
+.DS_Store
+Thumbs.db
+*.log
