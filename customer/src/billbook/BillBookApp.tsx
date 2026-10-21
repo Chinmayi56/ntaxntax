@@ -1,5 +1,5 @@
 // @ts-nocheck
-import React,{useEffect,useMemo,useRef,useState} from 'react';
+import React,{useCallback,useEffect,useMemo,useRef,useState} from 'react';
 
 import {Routes,Route,Navigate as RouterNavigate,useLocation as useRouterLocation,useNavigate as useRouterNavigate} from 'react-router-dom';
 import * as Icons from 'lucide-react';
@@ -238,11 +238,32 @@ function DriveSettings({data,user,save}:{data:UserData;user:User;save:Save}){
  const lastSavedPayload=useRef('');
  const driveApi='https://www.googleapis.com/drive/v3';
  const uploadApi='https://www.googleapis.com/upload/drive/v3/files';
- const call=async(url:string,init:RequestInit={})=>{
-   const r=await fetch(url,{...init,headers:{Authorization:`Bearer ${token}`,...(init.headers||{})}});
-   if(!r.ok){const detail=await r.text().catch(()=> '');throw new Error(r.status===401?'Google authorization expired. Reconnect Google Drive and retry.':r.status===403?'Google Drive denied the requested permission. Check Drive API and OAuth consent configuration.':`Google Drive request failed (${r.status}). ${detail.slice(0,180)}`)}
-   return r.status===204?null:r.json()
- };
+const call = useCallback(
+  async (url: string, init: RequestInit = {}) => {
+    const r = await fetch(url, {
+      ...init,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        ...(init.headers || {}),
+      },
+    });
+
+    if (!r.ok) {
+      const detail = await r.text().catch(() => '');
+
+      throw new Error(
+        r.status === 401
+          ? 'Google authorization expired. Reconnect Google Drive and retry.'
+          : r.status === 403
+            ? 'Google Drive denied the requested permission. Check Drive API and OAuth consent configuration.'
+            : `Google Drive request failed (${r.status}). ${detail.slice(0, 180)}`
+      );
+    }
+
+    return r.status === 204 ? null : r.json();
+  },
+  [token]
+);
  const connect=()=>{
    const normalized=requestedEmail.trim().toLowerCase();
    if(!clientId.trim()){setMessage('Configure the Google OAuth Web Client ID in VITE_GOOGLE_CLIENT_ID or the field above.');return}
@@ -278,40 +299,169 @@ function DriveSettings({data,user,save}:{data:UserData;user:User;save:Save}){
    script.onload=start;script.onerror=()=>{setStatus('Connection failed');setMessage('Could not load Google Identity Services. Check your network and retry.');setBusy(false)};
    document.head.appendChild(script);
  };
- const sync=async()=>{
-   if(!token){setMessage('Connect and verify Google Drive first.');return}
-   setBusy(true);setStatus('Syncing');setMessage('');
-   try{
-     let folder=folderId;
-     const folderName=`NTAXCO My BillBook - ${user.id}`;
-     if(!folder){
-       const q=await call(`${driveApi}/files?q=${encodeURIComponent(`name='${folderName.replace(/'/g,"\\'")}' and mimeType='application/vnd.google-apps.folder' and trashed=false`)}&fields=files(id,name)&pageSize=100`);
-       folder=q.files?.[0]?.id;
-       if(!folder){const made=await call(`${driveApi}/files?fields=id,name`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:folderName,mimeType:'application/vnd.google-apps.folder',appProperties:{ntaxcoBusinessId:String(user.id),ntaxcoApp:'my-billbook'}})});folder=made.id}
-       if(!folder)throw new Error('Google Drive did not return a folder ID.');
-       setFolderId(folder);
-     }
-     let target=fileId;
-     if(!target){
-       const q=await call(`${driveApi}/files?q=${encodeURIComponent(`'${folder}' in parents and name='business-${user.id}.json' and trashed=false`)}&fields=files(id,name,modifiedTime,version,webViewLink)&pageSize=100`);
-       target=q.files?.[0]?.id;
-     }
-     const payload=JSON.stringify({schemaVersion:1,business_id:String(user.id),businessName:data.businessProfile?.businessName||user.name,exportedAt:new Date().toISOString(),data},null,2);
-     const boundary='bb_'+Math.random().toString(36).slice(2);
-     const meta=JSON.stringify(target?{name:`business-${user.id}.json`,appProperties:{ntaxcoBusinessId:String(user.id),ntaxcoApp:'my-billbook'}}:{name:`business-${user.id}.json`,mimeType:'application/json',parents:[folder],appProperties:{ntaxcoBusinessId:String(user.id),ntaxcoApp:'my-billbook'}});
-     const body=`--${boundary}\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n${meta}\r\n--${boundary}\r\nContent-Type: application/json\r\n\r\n${payload}\r\n--${boundary}--`;
-     const saved=await call(`${uploadApi}${target?'/'+target:''}?uploadType=multipart&fields=id,name,modifiedTime,version,webViewLink`,{method:target?'PATCH':'POST',headers:{'Content-Type':`multipart/related; boundary=${boundary}`},body});
-     if(!saved?.id)throw new Error('Google Drive did not confirm the snapshot write.');
-     setFileId(saved.id);setLastSync(new Date().toLocaleString());lastSavedPayload.current=JSON.stringify(data);setInitialized(true);setStatus('Saved to Google Drive');
-     setMessage(`Google Drive confirmed the snapshot write (${saved.name}). Automatic sync is active for changes in this open workspace. Keep this page open and reconnect after refresh if Google authorization expires.`);
-   }catch(e){setStatus(String((e as Error).message).includes('expired')?'Reauthorization required':'Sync failed');setMessage((e as Error).message||'Google Drive synchronization failed. Your current workspace has not been discarded. Retry when the connection is available.')}
-   finally{setBusy(false)}
- };
+ const sync = useCallback(async () => {
+  if (!token) {
+    setMessage('Connect and verify Google Drive first.');
+    return;
+  }
+
+  setBusy(true);
+  setStatus('Syncing');
+  setMessage('');
+
+  try {
+    let folder = folderId;
+    const folderName = `NTAXCO My BillBook - ${user.id}`;
+
+    if (!folder) {
+      const q = await call(
+        `${driveApi}/files?q=${encodeURIComponent(
+          `name='${folderName.replace(/'/g, "\\'")}' and mimeType='application/vnd.google-apps.folder' and trashed=false`
+        )}&fields=files(id,name)&pageSize=100`
+      );
+
+      folder = q.files?.[0]?.id;
+
+      if (!folder) {
+        const made = await call(
+          `${driveApi}/files?fields=id,name`,
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              name: folderName,
+              mimeType: 'application/vnd.google-apps.folder',
+              appProperties: {
+                ntaxcoBusinessId: String(user.id),
+                ntaxcoApp: 'my-billbook',
+              },
+            }),
+          }
+        );
+
+        folder = made.id;
+      }
+
+      if (!folder) {
+        throw new Error('Google Drive did not return a folder ID.');
+      }
+
+      setFolderId(folder);
+    }
+
+    let target = fileId;
+
+    if (!target) {
+      const q = await call(
+        `${driveApi}/files?q=${encodeURIComponent(
+          `'${folder}' in parents and name='business-${user.id}.json' and trashed=false`
+        )}&fields=files(id,name,modifiedTime,version,webViewLink)&pageSize=100`
+      );
+
+      target = q.files?.[0]?.id;
+    }
+
+    const payload = JSON.stringify(
+      {
+        schemaVersion: 1,
+        business_id: String(user.id),
+        businessName:
+          data.businessProfile?.businessName || user.name,
+        exportedAt: new Date().toISOString(),
+        data,
+      },
+      null,
+      2
+    );
+
+    const boundary = 'bb_' + Math.random().toString(36).slice(2);
+
+    const meta = JSON.stringify(
+      target
+        ? {
+            name: `business-${user.id}.json`,
+            appProperties: {
+              ntaxcoBusinessId: String(user.id),
+              ntaxcoApp: 'my-billbook',
+            },
+          }
+        : {
+            name: `business-${user.id}.json`,
+            mimeType: 'application/json',
+            parents: [folder],
+            appProperties: {
+              ntaxcoBusinessId: String(user.id),
+              ntaxcoApp: 'my-billbook',
+            },
+          }
+    );
+
+    const body =
+      `--${boundary}\r\n` +
+      `Content-Type: application/json; charset=UTF-8\r\n\r\n` +
+      `${meta}\r\n` +
+      `--${boundary}\r\n` +
+      `Content-Type: application/json\r\n\r\n` +
+      `${payload}\r\n` +
+      `--${boundary}--`;
+
+    const saved = await call(
+      `${uploadApi}${target ? '/' + target : ''}?uploadType=multipart&fields=id,name,modifiedTime,version,webViewLink`,
+      {
+        method: target ? 'PATCH' : 'POST',
+        headers: {
+          'Content-Type': `multipart/related; boundary=${boundary}`,
+        },
+        body,
+      }
+    );
+
+    if (!saved?.id) {
+      throw new Error('Google Drive did not confirm the snapshot write.');
+    }
+
+    setFileId(saved.id);
+    setLastSync(new Date().toLocaleString());
+    lastSavedPayload.current = JSON.stringify(data);
+    setInitialized(true);
+    setStatus('Saved to Google Drive');
+
+    setMessage(
+      `Google Drive confirmed the snapshot write (${saved.name}). Automatic sync is active for changes in this open workspace. Keep this page open and reconnect after refresh if Google authorization expires.`
+    );
+  } catch (e) {
+    setStatus(
+      String((e as Error).message).includes('expired')
+        ? 'Reauthorization required'
+        : 'Sync failed'
+    );
+
+    setMessage(
+      (e as Error).message ||
+        'Google Drive synchronization failed. Your current workspace has not been discarded. Retry when the connection is available.'
+    );
+  } finally {
+    setBusy(false);
+  }
+}, [
+  token,
+  folderId,
+  fileId,
+  user.id,
+  user.name,
+  data,
+  call,
+  driveApi,
+  uploadApi,
+]);
 useEffect(() => {
   if (!token || !initialized || busy) return;
 
   const serialized = JSON.stringify(data);
-  if (!serialized || serialized === lastSavedPayload.current) return;
+
+  if (!serialized || serialized === lastSavedPayload.current) {
+    return;
+  }
 
   const timer = window.setTimeout(() => {
     void sync();
